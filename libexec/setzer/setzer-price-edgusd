@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+pair=edgusd
+sources=(
+  bittrex
+  gateio
+  hotbit
+  bkex
+)
+
+case $1 in
+  bittrex | gateio | bkex | hotbit) {
+    edg_usdt=$(setzer x-price "$1" edg:usdt)
+    usdt_usd=$(setzer price usdtusd)
+    setzer --format "$(bc -l <<<"$edg_usdt * $usdt_usd")"
+  };;
+  *) {
+    export SETZER_MIN_MEDIAN=3
+    setzer --price-commands "-$1-" $pair "${sources[@]}"
+  };;
+esac

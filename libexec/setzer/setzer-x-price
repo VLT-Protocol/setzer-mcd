@@ -198,6 +198,14 @@ case $src in
     json=$(curl -sS "https://api.upbit.com/v1/ticker?markets=${quote^^}-${base^^}")
     setzer --format "$(jshon <<<"$json" -e 0 -e trade_price)"
   };;
+  bkex) {
+    json=$(curl -sS "https://api.bkex.cc/v2/q/ticker/price?symbol=${base^^}_${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e data -e 0 -e price)"
+  };;
+  hotbit) {
+    json=$(curl -sS "https://api.hotbit.io/api/v1/market.last?market=${base^^}/${quote^^}")
+    setzer --format "$(jshon <<<"$json" -e result -u)"
+  };;
   *) {
     echo >&2 "Error: exchange not recognised: $src"
   };;
