@@ -12,7 +12,7 @@ case $1 in
   bittrex | gateio | bkex | hotbit) {
     edg_usdt=$(setzer x-price "$1" edg:usdt)
     usdt_usd=$(setzer price usdtusd)
-    setzer --format "$(bc -l <<<"$edg_usdt * $usdt_usd")"
+    setzer --format "$(bc -l <<<"$edg_usdt * $usdt_usd * 100")"
   };;
   *) {
     export SETZER_MIN_MEDIAN=3
